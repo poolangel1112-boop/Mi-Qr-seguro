@@ -68,7 +68,24 @@
     La ubicación solo se obtiene si la persona da permiso al navegador.
     Reemplaza los datos ficticios antes de realizar pruebas autorizadas.
   </p>
-</main>
+<
+<section style="text-align:center; margin-top:25px; padding:20px; border:1px solid #ddd; border-radius:12px;">
+  <h2>Mi código QR Seguro</h2>
+  <p>Escanea este código para abrir este perfil.</p>
+
+  <div id="qrcode"
+       style="display:flex; justify-content:center; margin:20px auto;">
+  </div>
+
+  <button id="descargarQR" type="button">
+    Descargar QR para imprimir
+  </button>
+
+  <p style="font-size:13px; color:#475569;">
+    Prueba el código con otro celular antes de imprimirlo.
+  </p>
+</section>
+/main>
 
 <script>
   const telefonoResponsable = "51988649709";
@@ -97,5 +114,39 @@
     );
   }
 </script>
-</body>
+<
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+  const contenedorQR = document.getElementById("qrcode");
+
+  new QRCode(contenedorQR, {
+    text: window.location.href,
+    width: 250,
+    height: 250,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  document.getElementById("descargarQR").addEventListener("click", function () {
+    const canvas = contenedorQR.querySelector("canvas");
+    const imagen = contenedorQR.querySelector("img");
+
+    let enlace = document.createElement("a");
+    enlace.download = "Mi-QR-Seguro-Persona-01.png";
+
+    if (canvas) {
+      enlace.href = canvas.toDataURL("image/png");
+      enlace.click();
+    } else if (imagen && imagen.src) {
+      enlace.href = imagen.src;
+      enlace.target = "_blank";
+      enlace.click();
+    } else {
+      alert("El QR todavía se está generando. Espera unos segundos.");
+    }
+  });
+</script>
+/body>
 </html>
