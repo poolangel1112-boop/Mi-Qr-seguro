@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi QR Seguro - Perfil 01</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+      margin: 0;
+      padding: 20px;
+    }
+    main {
+      max-width: 480px;
+      margin: auto;
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px #0001;
+    }
+    h1 { color: #087e8b; text-align: center; }
+    h2 { font-size: 18px; color: #087e8b; }
+    .dato {
+      background: #f1f5f9;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow-wrap: anywhere;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 8px;
+      background: #087e8b;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .aviso { font-size: 13px; color: #475569; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Mi QR Seguro</h1>
+  <p style="text-align:center">Perfil de apoyo y emergencia</p>
+
+  <h2>Información de la persona</h2>
+  <div class="dato"><b>Nombre:</b> Velgico antoque 01</div>
+  <div class="dato"><b>Apoyo que necesita:</b> Necesita de su manta, y si esta muy nervioso cantar le ayuda.</div>
+
+  <h2>En caso de emergencia</h2>
+  <div class="dato"><b>Indicaciones:</b> Mantener la calma y contactar al responsable.</div>
+  <div class="dato"><b>Información médica:</b> Alergia al latex, Alergias alimentarias(Leche, huevo y trigo)</div>
+
+  <h2>Contacto responsable</h2>
+  <div class="dato"><b>Teléfono:</b> 51988649709</div>
+
+  <button onclick="compartirUbicacion()">
+    Compartir mi ubicación por WhatsApp
+  </button>
+
+  <p class="aviso">
+    La ubicación solo se obtiene si la persona da permiso al navegador.
+    Reemplaza los datos ficticios antes de realizar pruebas autorizadas.
+  </p>
+</main>
+
+<script>
+  const telefonoResponsable = "51988649709";
+
+  function compartirUbicacion() {
+    if (!navigator.geolocation) {
+      alert("Este navegador no permite obtener la ubicación.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      function(posicion) {
+        const lat = posicion.coords.latitude;
+        const lon = posicion.coords.longitude;
+        const mapa = `https://www.google.com/maps?q=${lat},${lon}`;
+        const mensaje = encodeURIComponent(
+          "Mi QR Seguro: necesito apoyo. Mi ubicación es: " + mapa
+        );
+        const url = "https://wa.me/" + telefonoResponsable +
+                    "?text=" + mensaje;
+        window.open(url, "_blank");
+      },
+      function() {
+        alert("No se pudo obtener la ubicación. Revisa los permisos del celular.");
+      }
+    );
+  }
+</script>
+</body>
+</html>
